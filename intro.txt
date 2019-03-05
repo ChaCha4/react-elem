@@ -1,0 +1,75 @@
+**用React仿饿了么实战项目**
+
+## 前言
+
+api/目录下的db.json可以参考github中elem的数据。
+
+此次项目涉及到了以下几项内容
+
+1.Sass的scss写法，与css语法书写方式非常类似。
+
+2.better-scroll:一款重点解决移动端各种滚动场景需求的插件，核心是借鉴iscroll实现的，API兼容iscroll。它是基于原生JS实现的，不依赖任何框架。
+
+3.dispatch：分发action，是触发state变化的唯一途径
+
+4.mapStateToProps:使用React Redux库的connect()方法来生成容器组件前，需要先定义mapStateToProps这个函数，来指定如何把当前Redux store state映射到展示组件的props中。
+
+5.关于展示组件和容器组件的区别
+
+展示组件：
+①关注事物的展示②可能包含展示和容器组件，并且一般会有DOM标签和CSS样式。③常常允许通过this.props.children传递。④对第三方没有任何依赖，比如store或者flux action
+⑤不要指定数据如何加载和变化
+⑥仅通过属性获取数据和回调
+⑦很少有自己的状态，即使有，也是自己的UI状态
+⑧除非他们需要自己的状态，生命周期，或性能优化才会被写为功能组件。
+
+容器组件：
+①关注事物如何工作②可能包含展示和容器组件，并且不会有DOM标签和CSS样式。
+③提供数据和行为给容器组件或者展示组件
+④调用flux action并且提供他们的回调给展示组件。
+⑤作为数据源，通常采用较高阶的组件，而不是自己写，比如React Redux的connect().
+
+优势：
+①展示和容器更好的分离，更好的理解应用程序和UI
+②重用性高，展示组件可以用于多个不同的state数据源
+③展示组件就是你的调色板，可以把它们放到单独的页面，在不影响应用程序的情况下，让设计师调整UI
+④迫使你分离标签，达到更高的可用性。
+
+项目结构说明：
+展示部分分为head、home（包括点餐、评价、商家）、foot（结算时的个数、配送费）
+
+1.actions：包含所有action构造函数
+    -index.js:（getGoods、addToCart、delToCart）获取食物列表、添加到购物车、从购物车中删除，使用actionTYpes触发reducer,让reducer更改store的内容。
+
+2.components：包含所有的展示组件
+    -App.js:路由组件里面放Head、Home、FooterContainer组件
+    -Footer.js:footer展示组件，用来展示总价和配送费。
+    -footer.scss:footer展示组件对应的样式
+    -Head.js:顶部展示组件（有待完善）
+    -Home.js:主要内容部分，包含三个跳转路由NavLink（点餐、评价、商家）
+    -home.scss:Tabbar（点餐、评价、商家那块）的样式 
+    -Main.js:每个Tabbar所展示的内容
+    -Order.js:点餐模块，里面放侧边导航栏（热销榜、优惠榜、精品榜）以及对应的餐品列表。
+    -Order.scss:点餐模块对应的样式。
+    -Rating.js:评价模块（有待完善）
+    -Seller.js:商家模块（有待完善）
+
+3.constants：用来放一些静态文件
+    -actionTypes.js:用来存放一些全局的字符串常量。
+    -gloable.css:用来存放全局的样式。
+
+4.containers：包含所有的容器组件，容器组件仅仅做数据提取，然后渲染对应的子组件。
+    -FooterContainer.js
+    -OrderContainer.js
+
+5.reducers：包含所有redux的reducer,包含了更改store数据的具体方法。
+
+    -cart.js：添加到购物车(ADD_TO_CART)，从购物车中删除(DEL_TO_CART)
+    -goods.js:获取食物列表(GET_GOODS)
+    -index.js
+
+6.selectors（用来计算store中的衍生数据）
+
+    -index.js：getTopArr(商品与顶部的距离)、getTotal(计算总价和总个数)
+
+7.store：
